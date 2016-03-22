@@ -6,20 +6,12 @@
 
 namespace SoftwareEngineerTest;
 
-// Question 1a
-$DB_HOST = '192.168.59.128';
-$DB_NAME = 'test';
-$DB_USER = 'test';
-$DB_PASS = 'test';
-
-// Make sure mysqli throws exceptions and not warning
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+require 'db.php';
 
 try {
-	// Open the connection
-	$sql = new \mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
-	// Make sure charset is right (can be moved to my.cnf and removed from the runtime)
-	$sql->query("SET NAMES utf8");
+
+    // Fetch the database connection instance
+    $sql = Database::getInstance();
 
 	// select all the customers
 	$query = "
