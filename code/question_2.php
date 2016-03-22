@@ -19,6 +19,11 @@ abstract class Customer {
      */
 	protected $balance = 0;
 
+    /**
+     * @var float Coeficient added the current user level deposits
+     */
+    protected $bonusCoeficient = 1.0;
+
 	/**
 	 * Customer constructor.
 	 * @param $id
@@ -34,43 +39,28 @@ abstract class Customer {
 	public function get_balance() {
 		return $this->balance;
 	}
-}
 
-// Write your code below
-
-/**
- * Class DepositableBalanceTrait
- *
- * Adding this functionality into the abstract class makes much more sense, but but the instruciton says "Write your
- *  code below" so I did not want to interfere with the original abstract class.
- *
- * Adding a trait makes a bit more sense than adding second abstract class in this case.
- *
- * @package SoftwareEngineerTest
- */
-trait DepositableBalanceTrait {
-
-	/**
-	 * @param $amount
-	 * @return $this
+    /**
+     * Adds specified $amount to the {@see balance}
+     * @param $amount
+     * @return Customer
      */
-	public function deposit($amount) {
-		$this->balance += (float)$amount * $this->getBonusCoeficient();
-		return $this;
-	}
+    public function deposit($amount) {
+        $this->balance += (float)$amount * $this->getBonusCoeficient();
+        return $this;
+    }
 
-	/**
-	 * Returns current bonus coeficient.
-	 *
-	 * If none is set, returns "1".
-	 *
-	 * @return int
-	 */
-	protected function getBonusCoeficient()
-	{
-		// If the $bonusCoeficient is not set, return to make no change to the deposited amount
-		return isset($this->bonusCoeficient) ? $this->bonusCoeficient : 1;
-	}
+    /**
+     * Returns current bonus coeficient.
+     *
+     * If none is set, returns "1".
+     *
+     * @return int
+     */
+    protected function getBonusCoeficient()
+    {
+        return $this->bonusCoeficient;
+    }
 }
 
 /**
@@ -78,13 +68,7 @@ trait DepositableBalanceTrait {
  * @package SoftwareEngineerTest
  */
 class Bronze_Customer extends Customer {
-	use DepositableBalanceTrait;
-
-	/**
-	 * Coeficient added the current user level deposits
-	 * @var int
-     */
-	protected $bonusCoeficient = 1;
+    // Void
 }
 
 /**
@@ -92,8 +76,6 @@ class Bronze_Customer extends Customer {
  * @package SoftwareEngineerTest
  */
 class Silver_Customer extends Customer {
-	use DepositableBalanceTrait;
-
 	/**
 	 * Coeficient added the current user level deposits
 	 * @var float
@@ -106,8 +88,6 @@ class Silver_Customer extends Customer {
  * @package SoftwareEngineerTest
  */
 class Gold_Customer extends Customer {
-	use DepositableBalanceTrait;
-
 	/**
 	 * Coeficient added the current user level deposits
 	 * @var float
