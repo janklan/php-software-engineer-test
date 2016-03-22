@@ -39,35 +39,35 @@ abstract class Customer {
     );
 
     /**
-	 * @var int Customer ID
+     * @var int Customer ID
      */
-	protected $id;
+    protected $id;
 
-	/**
-	 * @var int Current balance
+    /**
+     * @var int Current balance
      */
-	protected $balance = 0;
+    protected $balance = 0;
 
     /**
      * @var float Coeficient added the current user level deposits
      */
     protected $bonus_coeficient = 1.0;
 
-	/**
-	 * Customer constructor.
-	 * @param $id
+    /**
+     * Customer constructor.
+     * @param $id
      */
-	public function __construct($id) {
-		$this->id = $id;
-	}
+    public function __construct($id) {
+        $this->id = $id;
+    }
 
-	/**
-	 * Returns the current balance
-	 * @return int
+    /**
+     * Returns the current balance
+     * @return int
      */
-	public function get_balance() {
-		return $this->balance;
-	}
+    public function get_balance() {
+        return $this->balance;
+    }
 
     /**
      * Adds specified $amount to the {@see balance}
@@ -174,11 +174,11 @@ class Bronze_Customer extends Customer {
  * @package SoftwareEngineerTest
  */
 class Silver_Customer extends Customer {
-	/**
-	 * Coeficient added the current user level deposits
-	 * @var float
+    /**
+     * Coeficient added the current user level deposits
+     * @var float
      */
-	protected $bonus_coeficient = 1.05;
+    protected $bonus_coeficient = 1.05;
 }
 
 /**
@@ -186,11 +186,11 @@ class Silver_Customer extends Customer {
  * @package SoftwareEngineerTest
  */
 class Gold_Customer extends Customer {
-	/**
-	 * Coeficient added the current user level deposits
-	 * @var float
+    /**
+     * Coeficient added the current user level deposits
+     * @var float
      */
-	protected $bonus_coeficient = 1.1;
+    protected $bonus_coeficient = 1.1;
 }
 
 echo 'Golden balance after 100 deposit: '.Customer::get_instance('G1')->deposit(100)->get_balance();
