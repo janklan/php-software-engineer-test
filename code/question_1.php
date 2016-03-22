@@ -11,7 +11,7 @@ require 'db.php';
 try {
 
     // Fetch the database connection instance
-    $sql = Database::getInstance();
+    $sql = Database::get_instance();
 
 	// select all the customers
 	$query = "

@@ -34,7 +34,7 @@ final class Database
      * Creates database connection when called the first time. Returns the existing connection everytime.
      * @return \mysqli
      */
-    public static function getInstance()
+    public static function get_instance()
     {
         if (null === self::$instance) {
             // Make sure mysqli throws exceptions and not warning

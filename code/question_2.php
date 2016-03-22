@@ -32,7 +32,7 @@ abstract class Customer {
      * List of known customer levels and their respective user classes
      * @var array
      */
-    private static $allowedLevels = array(
+    private static $allowed_levels = array(
         self::LEVEL_BRONZE  => '\SoftwareEngineerTest\Bronze_Customer',
         self::LEVEL_SILVER  => '\SoftwareEngineerTest\Silver_Customer',
         self::LEVEL_GOLD    => '\SoftwareEngineerTest\Gold_Customer',
@@ -51,7 +51,7 @@ abstract class Customer {
     /**
      * @var float Coeficient added the current user level deposits
      */
-    protected $bonusCoeficient = 1.0;
+    protected $bonus_coeficient = 1.0;
 
 	/**
 	 * Customer constructor.
@@ -75,14 +75,14 @@ abstract class Customer {
      * @return Customer
      */
     public function deposit($amount) {
-        $this->balance += (float)$amount * $this->getBonusCoeficient();
+        $this->balance += (float)$amount * $this->get_bonus_coeficient();
         return $this;
     }
 
     /**
      * Factory method returns the correct customer instance based on the ID specified.
      *
-     * @see $allowedLevels
+     * @see $allowed_levels
      * @param $id ID in format [A-Z]\d{,9}
      * @return Descendants of the Customer class
      * @throws \InvalidArgumentException
@@ -92,12 +92,12 @@ abstract class Customer {
         // The first character of the ID should be one of our customer levels
         $customerLevel = strtoupper($id[0]);
 
-        if (isset(self::$allowedLevels[$customerLevel])) {
+        if (isset(self::$allowed_levels[$customerLevel])) {
             $customerId = (int)preg_replace('/[^\d]/', '', $id);
             // Spec says ID and number has maxlength(10), so the (int)$id must be <= 999 999 999
             //  and > 0, as 0 would mean invalid ID specified
             if ($customerId > 0 && $customerId <= 999999999) {
-                return new self::$allowedLevels[$customerLevel]($customerId);
+                return new self::$allowed_levels[$customerLevel]($customerId);
             } else {
                 throw new \InvalidArgumentException('Invalid customer ID specified.');
             }
@@ -113,9 +113,9 @@ abstract class Customer {
      *
      * @return int
      */
-    protected function getBonusCoeficient()
+    protected function get_bonus_coeficient()
     {
-        return $this->bonusCoeficient;
+        return $this->bonus_coeficient;
     }
 
     /**
@@ -126,16 +126,20 @@ abstract class Customer {
     public function generate_username()
     {
         // Fetch the ID level
-        $customerLevelKey = array_search('\\'.get_class($this), self::$allowedLevels);
+        $customerLevelKey = array_search('\\'.get_class($this), self::$allowed_levels);
 
         try {
             // Fetch the MySQL
-            $sql = Database::getInstance();
+            $sql = Database::get_instance();
 
             do {
                 // Generate a string of a total length between 10 and 30 (10 being my own arbitraty number, 30 limit of the database)
                 $username = $customerLevelKey.substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, rand(9, 29));
+
+                // Load a record if it exists
                 $result = $sql->query("SELECT customer_id FROM customer WHERE username = '{$username}'");
+
+            // Rinse and repeat until there are no found rows --> no duplicate user names
             } while ($result->num_rows > 0);
 
             /**
@@ -174,7 +178,7 @@ class Silver_Customer extends Customer {
 	 * Coeficient added the current user level deposits
 	 * @var float
      */
-	protected $bonusCoeficient = 1.05;
+	protected $bonus_coeficient = 1.05;
 }
 
 /**
@@ -186,7 +190,7 @@ class Gold_Customer extends Customer {
 	 * Coeficient added the current user level deposits
 	 * @var float
      */
-	protected $bonusCoeficient = 1.1;
+	protected $bonus_coeficient = 1.1;
 }
 
 echo 'Golden balance after 100 deposit: '.Customer::get_instance('G1')->deposit(100)->get_balance();
