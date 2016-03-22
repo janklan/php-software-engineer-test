@@ -8,4 +8,9 @@ echo '</ul>';
 
 echo '<hr>';
 
+show_source(__FILE__);
+
+echo '<hr>';
+
 phpinfo();
+

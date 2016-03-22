@@ -23,7 +23,7 @@ try {
 		FROM
 			customer AS cus
 			LEFT JOIN customer_occupation AS cusocc
-				USING(customer_occupation_id)
+			    ON cus.customer_occupation_id = cusocc.customer_occupation_id
 	";
 
 	// If the occupation_name variable is defined, we want only specific occupations
@@ -87,3 +87,7 @@ if ($result->num_rows === 0) {
 		.'</table>';
 
 }
+
+echo '<hr>';
+
+show_source(__FILE__);

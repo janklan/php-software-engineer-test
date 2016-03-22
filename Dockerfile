@@ -32,6 +32,8 @@ EXPOSE 80
 
 ########
 
-RUN echo -e "\nexport TERM=xterm" >> ~/.bashrc
+########
+
+RUN echo "\nexport TERM=xterm" >> ~/.bashrc
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
