@@ -38,7 +38,8 @@ final class Database
     {
         if (null === self::$instance) {
             // Make sure mysqli throws exceptions and not warning
-            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+//            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            mysqli_report(MYSQLI_REPORT_ALL);
             // Open the connection
             self::$instance = new \mysqli(self::$host, self::$user, self::$pass, self::$db);
             // Make sure charset is right (can be moved to my.cnf and removed from the runtime)
