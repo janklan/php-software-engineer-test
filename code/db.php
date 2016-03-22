@@ -2,15 +2,38 @@
 
 namespace SoftwareEngineerTest;
 
+/**
+ * Class Database
+ * @package SoftwareEngineerTest
+ */
 final class Database
 {
+    /**
+     * @var string Mysql server
+     */
     private static $host   = '192.168.59.128';
+    /**
+     * @var string Mysql db name
+     */
     private static $db     = 'test';
+    /**
+     * @var string Mysql user name
+     */
     private static $user   = 'test';
+    /**
+     * @var string Mysql password
+     */
     private static $pass   = 'test';
 
+    /**
+     * @var \mysqli Database connection instance
+     */
     private static $instance;
 
+    /**
+     * Creates database connection when called the first time. Returns the existing connection everytime.
+     * @return \mysqli
+     */
     public static function getInstance()
     {
         if (null === self::$instance) {
@@ -25,7 +48,12 @@ final class Database
         return self::$instance;
     }
 
-    private function __construct()
+    /**
+     * Database constructor. Should not be called, this is a singleton pattern class.
+     *
+     * @see getInstance()
+     */
+    public function __construct()
     {
         throw new \RuntimeException('This is a singleton class. Call \SoftwareEngineerTest\Database::getInstance() instead.');
     }
